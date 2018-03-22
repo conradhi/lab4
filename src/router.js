@@ -26,7 +26,8 @@ export default [
       path: '/blog/:id',
       components:{
         default: selectDish,
-        navbar: sidebar
+        navbar: sidebar,
+        props: { model: modelInstance }
       }
     }
 ]

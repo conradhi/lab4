@@ -1,15 +1,22 @@
 const httpOptions = {
   headers: {'X-Mashape-Key': 'Qu9grxVNWpmshA4Kl9pTwyiJxVGUp1lKzrZjsnghQMkFkfA4LB'}
 };
-
 const DinnerModel = function () {
 
   let numberOfGuests = 4;
   let observers = [];
+  let currentDishId = 100;
 
   this.setNumberOfGuests = function (num) {
     numberOfGuests = num;
-    notifyObservers();
+  };
+
+  this.getCurrentDishId = function () {
+    return currentDishId;
+  };
+
+  this.setCurrentDishId = function (num) {
+    currentDishId = num;
   };
 
   this.getNumberOfGuests = function () {
@@ -19,11 +26,19 @@ const DinnerModel = function () {
   // API Calls
 
   this.getAllDishes = function () {
-    const url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search'
+    const url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/random?limitLicense=false&number=10'
     return fetch(url, httpOptions)
       .then(processResponse)
       .catch(handleError)
   }
+
+  this.getAllInfo = function () {
+    const url = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/" + currentDishId + "/information"
+    return fetch(url, httpOptions)
+      .then(processResponse)
+      .catch(handleError)
+  }
+
 
 
   // API Helper methods

@@ -33,17 +33,22 @@
 				</div>
 
 				<div class="container-fluid">
-					<div class="row" id="all">
-            <ul>
-              <em v-if='status === "INITIAL"'>Loading...</em>
-              <b v-else-if='status === "ERROR"'>Failed to load data, please try again</b>
-              <li v-for="dish in dishes" :id="dish.id" :key="dish.id">
-                {{ dish.title }}
-                <img :src="https://webknox.com/recipeImages/" + "dishes.imageUrls" class='img-fluid' alt='Responsive image'></img>
-              </li>
-            </ul>
+					<div class="row">
+            <em v-if='status === "INITIAL"'>Loading...</em>
+            <b v-else-if='status === "ERROR"'>Failed to load data, please try again</b>
+              <div v-for="(dish, index) in dishes" :id="dish.id" :key="dish.id" class="col-4">
 
+                <router-link v-bind:to="'/blog/' + dishes[index].id">
+                  <div class="col-12" style="text-align: center;" id="title" v-on:click="setDishId(dishes[index].id)">
+                    {{ dish.title }}
+                  </div>
 
+                  <div class="col-12" style="text-align: center;" v-on:click="setDishId(dishes[index].id)">
+                    <img :src="dishes[index].image" class='img-fluid' alt='Responsive image'></img>
+                  </div>
+                </router-link>
+
+              </div>
 					</div>
 				</div>
 			</div>
@@ -59,8 +64,7 @@ import {modelInstance} from "./DinnerModel";
     mounted(){
       modelInstance.getAllDishes().then(dishes => {
         this.status = 'LOADED'
-        this.dishes = dishes.results
-        console.log(dishes);
+        this.dishes = dishes.recipes
 
 
       }).catch(() => {
@@ -70,10 +74,21 @@ import {modelInstance} from "./DinnerModel";
     data() {
       return {
         status: 'INITIAL',
-        dishes: [],
+        dishes: []
       }
     },
+    methods: {
+      setDishId: function(num){
+        modelInstance.setCurrentDishId(num)
+      },
 
+    }
   }
 
 </script>
+
+<style scoped>
+#title{
+  color: black;
+}
+</style>
