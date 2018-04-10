@@ -1,12 +1,17 @@
 import welcome from './components/Welcome.vue'
 import sidebar from './components/Sidebar.vue'
 import dishes from './components/Dishes.vue'
-import selectDish from './components/SelectDish.vue'
+import recipe from './components/Recipe.vue'
 import { modelInstance } from "./components/DinnerModel";
+import confirm from './components/Confirm.vue'
+import print from './components/Print.vue'
 
 
 export default [
-    { path: '/', component: welcome },
+    {
+      path: '/',
+      component: welcome
+    },
     {
       path: '/dishes',
       components: {
@@ -16,17 +21,24 @@ export default [
       }
     },
     {
-      path: '/selectDish',
-      components: {
-        default: selectDish,
-        navbar: sidebar
+      path: '/recipe/:id',
+      components:{
+        default: recipe,
+        navbar: sidebar,
+        props: { model: modelInstance }
       }
     },
     {
-      path: '/blog/:id',
+      path: '/confirm',
       components:{
-        default: selectDish,
-        navbar: sidebar,
+        default: confirm,
+        props: { model: modelInstance }
+      }
+    },
+    {
+      path: '/print',
+      components:{
+        default: print,
         props: { model: modelInstance }
       }
     }

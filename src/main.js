@@ -6,6 +6,7 @@ import Routes from './router'
 // Use packages
 
 Vue.use(VueRouter);
+Vue.config.productionTip = false
 
 
 // Register routes
